@@ -44,3 +44,12 @@ class InputService:
                 sys.exit()
             self._current = self._directions.get(event, self._current)
         return self._current
+
+    def get_letter(self):
+        event = self._screen.get_key()
+
+        letter = None
+        if event != None:
+            letter = chr(event)
+
+        return letter
