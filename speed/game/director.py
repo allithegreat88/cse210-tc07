@@ -5,7 +5,7 @@ from game.score import Score
 from game import constants
 from time import sleep
 from game.buffer import Buffer
-from game.word import word
+from game.word import Word
 
 
 class Director:
@@ -57,7 +57,8 @@ class Director:
             self (Director): An instance of Director.
         """
         letter = self._input_service.get_letter()
-        self._buffer.add_letter(letter)
+        # VVV Make sure to include that if they hit enter it clears buffer.
+        self._buffer.add_letter(letter) 
 
     def _do_updates(self):
         """Updates the important game information for each round of play. In 
@@ -66,8 +67,10 @@ class Director:
         Args:
             self (Director): An instance of Director.
         """
-        self._handle_body_collision()
-        self._handle_buffer_collision()
+        # self._handle_body_collision()
+        self._word.generate_words()
+        # self._buffer._buffer_clear_word(self._word.get_all())
+        self.check_words(self._buffer.get_buffer(), self._word.get_all())
         
     def _do_outputs(self):
         """Outputs the important game information for each round of play. In 
@@ -83,31 +86,6 @@ class Director:
         self._output_service.draw_actor(self._score)
         self._output_service.flush_buffer()
 
-    def _handle_body_collision(self):
-        """Handles collisions between the Word's head and body. Stops the game 
-        if there is one.
-
-        Args:
-            self (Director): An instance of Director.
-        """
-        head = self._word.get_head()
-        body = self._word.get_body()
-        for segment in body:
-            if head.get_position().equals(segment.get_position()):
-                self._keep_playing = False
-                break
-
-    def _handle_buffer_collision(self):
-        """Handles collisions between the Word's head and the Buffer. Grows the 
-        Word, updates the score and moves the Buffer if there is one.
-
-        Args:
-            self (Director): An instance of Director.
-        """
-        head = self._word.get_head()
-        if head.get_position().equals(self._buffer.get_position()):
-            points = self._buffer.get_points()
-            for n in range(points):
-                self._word.grow_tail()
-            self._score.add_points(points)
-            self._buffer.reset() 
+    def check_words(self, buffer, words):
+        # Remove word from screen if it is in buffer
+        pass
