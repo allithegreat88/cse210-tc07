@@ -58,7 +58,8 @@ class Director:
         """
         letter = self._input_service.get_letter()
         # VVV Make sure to include that if they hit enter it clears buffer.
-        self._buffer.add_letter(letter) 
+        if letter != None:
+            self._buffer.add_letter(letter) 
 
     def _do_updates(self):
         """Updates the important game information for each round of play. In 
@@ -82,7 +83,7 @@ class Director:
         """
         self._output_service.clear_screen()
         self._output_service.draw_actor(self._buffer)
-        self._output_service.draw_actors(self._word.get_all())
+        # self._output_service.draw_actors(self._word.get_all())
         self._output_service.draw_actor(self._score)
         self._output_service.flush_buffer()
 
