@@ -12,15 +12,18 @@ class Buffer(Actor):
 
 
     def add_letter(self, letter):
-        s = list(self._buffer)
-        for i in range(0, 40):
-            if s[i] != '-':
-                s[i] = s[i]
-            else:
-                s[i] = letter
-                break
-        self._buffer = ''.join(s)
-        self.set_text(f"Buffer: {self._buffer}")
+        if letter == '\n' or letter == '\r':
+            self.refresh_buffer()
+        else:
+            s = list(self._buffer)
+            for i in range(0, 40):
+                if s[i] != '-':
+                    s[i] = s[i]
+                else:
+                    s[i] = letter
+                    break
+            self._buffer = ''.join(s)
+            self.set_text(f"Buffer: {self._buffer}")
         
 
     def get_buffer(self):
