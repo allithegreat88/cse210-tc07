@@ -3,10 +3,11 @@ from game.actor import Actor
 class Word(Actor):
     def __init__(self):
         super().__init__()
-        word_bank = create_word_bank(self)
+        self.word_bank = self.create_word_bank()
         pass
 
     def get_all(self):
+        # Returns a list of all the words on the screen
         pass
 
     def generate_words(self):

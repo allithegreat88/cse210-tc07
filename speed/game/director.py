@@ -58,7 +58,8 @@ class Director:
         """
         letter = self._input_service.get_letter()
         # VVV Make sure to include that if they hit enter it clears buffer.
-        self._buffer.add_letter(letter)
+        if letter != None:
+            self._buffer.add_letter(letter) 
 
     def _do_updates(self):
         """Updates the important game information for each round of play. In 
