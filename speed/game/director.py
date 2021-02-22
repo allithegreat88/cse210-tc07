@@ -82,10 +82,12 @@ class Director:
         """
         self._output_service.clear_screen()
         self._output_service.draw_actor(self._buffer)
-        self._output_service.draw_actors(self._word.get_all())
+        # self._output_service.draw_actors(self._word.get_all())
         self._output_service.draw_actor(self._score)
         self._output_service.flush_buffer()
 
     def check_words(self, buffer, words):
         # Remove word from screen if it is in buffer
-        pass
+        for word in words:
+            if word in buffer:
+                words.remove(word)
