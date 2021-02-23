@@ -1,6 +1,6 @@
 from game.input_service import InputService
 from game.output_service import OutputService
-from asciimatics.screen import Screen 
+from asciimatics.screen import Screen
 from game.score import Score
 from game import constants
 from time import sleep
@@ -11,7 +11,7 @@ from game.word import Word
 class Director:
     """A code template for a person who directs the game. The responsibility of 
     this class of objects is to control the sequence of play.
-    
+
     Stereotype:
         Controller
 
@@ -26,7 +26,7 @@ class Director:
 
     def __init__(self, input_service, output_service):
         """The class constructor.
-        
+
         Args:
             self (Director): an instance of Director.
         """
@@ -36,10 +36,10 @@ class Director:
         self._output_service = output_service
         self._score = Score()
         self._word = Word()
-        
+
     def start_game(self):
         """Starts the game loop to control the sequence of play.
-        
+
         Args:
             self (Director): an instance of Director.
         """
@@ -58,7 +58,8 @@ class Director:
         """
         letter = self._input_service.get_letter()
         # VVV Make sure to include that if they hit enter it clears buffer.
-        self._buffer.add_letter(letter) 
+        if letter != None:
+            self._buffer.add_letter(letter) 
 
     def _do_updates(self):
         """Updates the important game information for each round of play. In 
@@ -71,7 +72,7 @@ class Director:
         self._word.generate_words()
         # self._buffer._buffer_clear_word(self._word.get_all())
         self.check_words(self._buffer.get_buffer(), self._word.get_all())
-        
+
     def _do_outputs(self):
         """Outputs the important game information for each round of play. In 
         this case, that means checking if there are stones left and declaring 
@@ -82,10 +83,12 @@ class Director:
         """
         self._output_service.clear_screen()
         self._output_service.draw_actor(self._buffer)
-        self._output_service.draw_actors(self._word.get_all())
+        # self._output_service.draw_actors(self._word.get_all())
         self._output_service.draw_actor(self._score)
         self._output_service.flush_buffer()
 
     def check_words(self, buffer, words):
         # Remove word from screen if it is in buffer
-        pass
+        for word in words:
+            if word in buffer:
+                words.remove(word)
